@@ -4,11 +4,40 @@ import { InputGroup , FormControl,Button, Container,Nav,Navbar ,Row,Col,Card,Bad
 import DatePicker from "react-datepicker";
 import Particles from 'react-particles-js';
 import {particle_js_config} from '../config/particle';
+import cogoToast from "cogo-toast";
+import { useSelector, useDispatch } from "react-redux";
+import { Options } from "tsparticles/Options/Classes/Options";
 
 const Home = () => {
 
   const [startDate, setStartDate] = useState(new Date());
-  const [EndDate, setEndDate] = useState(new Date());
+  const [EndDate, setEndDate] = useState(new Date(+new Date() + 1*365*24*60*60*1000));
+  const [Link, setLink] = useState("https://google.co.in");
+
+  const dispatch = useDispatch();
+  const day = useSelector((state) => state.day.start_date);
+
+  const shortenLink = () =>{
+    console.log("hi", startDate,"44",EndDate,"55",Link);
+    const body = {
+      redirects_to:Link,
+      will_open_at:startDate,
+      will_expire_at:EndDate
+    }
+    axios({
+      method: 'post',
+      url: "urls/anonymous/shortner",
+      data: body,
+    }).then(response =>{
+      console.log(response,888)
+      // const url = response.data.redirectSite;
+      // //taking user to redirected url
+      // window.location.href = url;
+    }).catch(err =>{
+        console.log(err.response.data.message,999);
+        cogoToast.error(err.response.data.message,{position:'top-right',hideAfter:4});
+    })
+  }
 
 
   let handleColor = (time) => {
@@ -44,9 +73,10 @@ const Home = () => {
                 <Col sm = {12} md = {10} >
                 <InputGroup className="mb-3">
     <FormControl
-      placeholder="Paste your url here !"
-      aria-label="Paste your url here !"
+      placeholder="Paste your url here like https://google.co.in!"
+      aria-label="Paste your url here like https://google.co.in!!"
       aria-describedby="basic-addon2"
+      onChange = {(event)=>setLink(event.target.value)}
     />
    
     <DatePicker
@@ -67,7 +97,10 @@ const Home = () => {
   </InputGroup>
                 </Col>
                 <Col sm = {12} md = {2} >
-                <Button>
+                <Button onClick={() => {
+                              console.log("hi")
+                                shortenLink();
+                              }} >
       Shorten it
   </Button>
                 </Col>
