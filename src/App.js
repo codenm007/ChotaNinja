@@ -36,9 +36,9 @@ export default function App() {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route  path="/">
+          {/* <Route  path="/">
             <Redirect />
-          </Route>
+          </Route> */}
         </Switch>
       </div>
     </Router>

@@ -6,17 +6,45 @@ import Particles from 'react-particles-js';
 import {particle_js_config} from '../config/particle';
 import cogoToast from "cogo-toast";
 import { useSelector, useDispatch } from "react-redux";
-import { Options } from "tsparticles/Options/Classes/Options";
+import { urls_actions } from "../store/urls";
+
+
 
 const Home = () => {
+
+  const dispatch = useDispatch();
+  const urls = useSelector((state) => state.urls);
+  
+
+  const getTotalClicks = (id) =>{
+    console.log(id,9878);
+    const body = {
+      id:id
+    }
+    axios({
+      method: 'post',
+      url: "urls/anonymous/totalClicks",
+      data: body,
+    }).then(response =>{
+      
+      dispatch(urls_actions.refresh_total_clicks({id:id,total_clicks:response.data.data.total_clicks}));
+
+    }).catch(err =>{
+        
+      dispatch(urls_actions.refresh_total_clicks({id:id,total_clicks:"NA"}));
+    })
+  }
+  //syncing total clicks 
+  urls.forEach(async url =>{
+   getTotalClicks(url.id);
+  })
+  localStorage.setItem("urls",JSON.stringify(urls));
 
   const [startDate, setStartDate] = useState(new Date());
   const [EndDate, setEndDate] = useState(new Date(+new Date() + 1*365*24*60*60*1000));
   const [Link, setLink] = useState("https://google.co.in");
-
-  const dispatch = useDispatch();
-  const day = useSelector((state) => state.day.start_date);
-
+ 
+  
   const shortenLink = () =>{
     console.log("hi", startDate,"44",EndDate,"55",Link);
     const body = {
@@ -29,17 +57,23 @@ const Home = () => {
       url: "urls/anonymous/shortner",
       data: body,
     }).then(response =>{
-      console.log(response,888)
+      console.log(response.data.data,888)
       // const url = response.data.redirectSite;
       // //taking user to redirected url
       // window.location.href = url;
+       dispatch(urls_actions.add_url(response.data.data));
+      cogoToast.success("Yaah ! Link shortened successfully !");
+      // set_show_urls(false);
     }).catch(err =>{
-        console.log(err.response.data.message,999);
+       // console.log(err , 9911)
         cogoToast.error(err.response.data.message,{position:'top-right',hideAfter:4});
     })
   }
 
-
+  const copytoClipboard = (text) =>{
+    navigator.clipboard.writeText(text);
+    cogoToast.success("Link copied to clipboard !");
+  }
   let handleColor = (time) => {
     return time.getHours() > 12 ? "text-success" : "text-error";
   };
@@ -107,30 +141,35 @@ const Home = () => {
             </Row>
             
         </div>
+        
         <div className ="my-3">
-        <Card style={{ width: '92.3%' }}>
-  <Card.Body>
-  
-    <Card.Title>Credi$ol</Card.Title>
-    <p>World’s First Cypto Merchandise Platform</p> 
-    <div style = {{float:"right"}}>
-      <h6>Opens on :   {`${new Date("2021-11-08T14:59:06.928Z")}`}</h6>
-      <h6>Expires on : {`${new Date("2022-11-08T14:59:24.325Z")}`}</h6>
-    </div>
-    <br/>
-    <Card.Text>
-      <h6 style ={{color:"grey"}}><a href = "https://www.credisol.store/" style = {{textDecoration:"none",color:"grey"}}>https://www.credisol.store/</a></h6>
-      <hr/>
-      <h5 style ={{color:"red"}}><a href = "http://chotaninja.herokuapp.com/047a976" style = {{textDecoration:"none",color:"red"}}>http://chotaninja.herokuapp.com/047a976</a></h5>
-    </Card.Text>
-    <Button variant="primary" className = "float-end">
-  Clicks <Badge bg="secondary">9</Badge>
-  <span className="visually-hidden">Clicks</span>
-</Button>
-  </Card.Body>
-</Card>
+          {urls.map(j =>{
+            return(       
+           <Card style={{ width: '92.3%',marginTop:"20px" }}>
+            <Card.Body>
+            
+              <Card.Title>{j.meta.title}</Card.Title>
+              <p>{j.meta.description}</p> 
+              <div style = {{float:"right"}}>
+                <h6>Opens on :   {`${new Date(j.opensAt)}`}</h6>
+                <h6>Expires on : {`${new Date(j.expiresAt)}`}</h6>
+              </div>
+              <br/>
+              <Card.Text>
+                <h6 style ={{color:"grey"}}>{j.actualLink}</h6>
+                <hr/>
+                <h5 style ={{color:"red",cursor:"copy"}}><div className = {{color:"red"}} onClick = {()=>copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
+              </Card.Text>
+              <Button variant="primary" className = "float-end">
+            Clicks <Badge bg="secondary">{j.total_clicks}</Badge>
+            <span className="visually-hidden">Clicks</span>
+          </Button>
+            </Card.Body>
+          </Card>)
+          })}
         </div>
         </div>
+        
         </Container>
 }
         </>
