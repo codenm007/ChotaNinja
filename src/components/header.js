@@ -1,15 +1,19 @@
+import {Nav,Navbar,Container,Button} from 'react-bootstrap';
+
 const Header = () => {
   return (
-   
-      <div>
-        <nav className="navbar navbar-dark bg-dark">
-          <div className="container-fluid">
-            <a className="navbar-brand" href="#">
-              Awesome Todo App
-            </a>
-          </div>
-        </nav>
-      </div>
+    <Navbar bg="dark" variant="dark">
+    <Container>
+    <Navbar.Brand href="#home">Chota Ninja</Navbar.Brand>
+    <Nav className="ml-auto">
+      <Nav.Link href="#home">Home</Nav.Link>
+      <Nav.Link href="#features">Features</Nav.Link>
+      <Nav.Link href="#pricing">
+          <Button>Sign In/Log In</Button>
+      </Nav.Link>
+    </Nav>
+    </Container>
+  </Navbar>
   );
 };
 

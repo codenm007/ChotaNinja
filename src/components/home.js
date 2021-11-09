@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { InputGroup , FormControl,Button, Container,Nav,Navbar ,Row,Col,Card,Badge} from 'react-bootstrap';
+import { InputGroup , FormControl,Button, Container,Row,Col,Card,Badge} from 'react-bootstrap';
 import DatePicker from "react-datepicker";
 import Particles from 'react-particles-js';
 import {particle_js_config} from '../config/particle';
@@ -80,18 +80,6 @@ const Home = () => {
   console.log(new Date(startDate).toISOString(),77788,new Date(EndDate).toISOString(),232323)
     return (
      <>
- <Navbar bg="dark" variant="dark">
-    <Container>
-    <Navbar.Brand href="#home">Chota Ninja</Navbar.Brand>
-    <Nav className="ml-auto">
-      <Nav.Link href="#home">Home</Nav.Link>
-      <Nav.Link href="#features">Features</Nav.Link>
-      <Nav.Link href="#pricing">
-          <Button>Sign In/Log In</Button>
-      </Nav.Link>
-    </Nav>
-    </Container>
-  </Navbar>
   <Particles params={particle_js_config} />
       {
         <Container>
