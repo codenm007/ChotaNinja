@@ -9,7 +9,7 @@ import {
 import Header from './components/header';
 import Calendar from './components/calendar';
 import Home from './components/home';
-import Redirect from './components/redirect';
+import PageNotFound from './components/404.js';
 
 
 export default function App() {
@@ -20,6 +20,9 @@ export default function App() {
         <Switch>
           <Route exact path="/calendar">
             <Calendar />
+          </Route>
+          <Route exact path="/404">
+            <PageNotFound />
           </Route>
           <Route exact path="/">
             <Home />
