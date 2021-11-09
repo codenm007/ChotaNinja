@@ -10,7 +10,7 @@ import Header from './components/header';
 import Calendar from './components/calendar';
 import Home from './components/home';
 import PageNotFound from './components/404.js';
-
+import Login from './components/login';
 
 export default function App() {
   return (
@@ -26,6 +26,9 @@ export default function App() {
           </Route>
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route exact path="/login">
+            <Login />
           </Route>
           {/* <Route  path="/">
             <Redirect />
