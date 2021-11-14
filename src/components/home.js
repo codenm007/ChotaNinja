@@ -93,8 +93,8 @@ const Home = () => {
             marginTop: "100px",
             position: "absolute",
             top: 0,
-            width: "100%",
-            height: "100%"
+            width: "90%",
+            height: "auto"
           }}>
             <div >
               <Row >
@@ -127,8 +127,8 @@ const Home = () => {
             marginTop: "380px",
             position: "absolute",
             top: 0,
-            width: "100%",
-            height: "100%",
+            width: "90%",
+            height: "auto",
 
 
           }}>
@@ -155,8 +155,7 @@ const Home = () => {
                 </Col>
               </Row>
               <Row style={{ opacity: "0.8" }}>
-
-                <Col sm={12} md={6} className="d-flex justify-content-end">
+              <Col sm={12} md={6} className="d-flex justify-content-end">
                   <DatePicker
                     showTimeSelect
                     selected={startDate}
@@ -164,6 +163,7 @@ const Home = () => {
                     timeClassName={handleColor}
                   />
                 </Col>
+
                 <Col sm={12} md={6} >
 
                   <DatePicker
