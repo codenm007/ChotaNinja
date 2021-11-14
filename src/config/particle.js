@@ -8,13 +8,13 @@ export const particle_js_config = {
             },
         },
         color: {
-            value: "#007acc",
+            value: "#ffffff",
         },
         shape: {
             type: "circle",
             stroke: {
-                width: 2,
-                color: "#007acc",
+                width: 4,
+                color: "#ffffff"
             },
             polygon: {
                 nb_sides: 5,
@@ -43,9 +43,9 @@ export const particle_js_config = {
         line_linked: {
             enable: true,
             distance: 150,
-            color: "#007acc",
+            color: "#ffffff",
             opacity: 0.75,
-            width: 2.5,
+            width: 3.5,
         },
         move: {
             enable: true,

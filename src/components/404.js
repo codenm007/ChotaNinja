@@ -4,7 +4,7 @@ const PageNotFound = () => {
   return (
     
     <Container style = {{alignSelf:"center",marginLeft:"300px"}}>
-        <h3 style = {{paddingLeft : "140px" , marginTop:"30px" , color:"red"}}>Sorry the link is either invalid or expired !</h3>
+        <h3 style = {{paddingLeft : "140px" , marginTop:"30px" , color:"#fff"}}>Sorry the link is either invalid or expired !</h3>
       <svg
       xmlns="http://www.w3.org/2000/svg"
       data-name="Layer 1"

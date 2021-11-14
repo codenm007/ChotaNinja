@@ -14,14 +14,14 @@ const Redirect = () => {
             code:pathname
         }
         axios({
-            method: 'post',
-            url: 'urls/getredirecturl',
+            method: 'get',
+            url: pathname,
             data: body,
           }).then(response =>{
-            //console.log(response.data.redirectSite,888)
-            const url = response.data.redirectSite;
-            //taking user to redirected url
-            window.location.href = url;
+            console.log(response,888)
+            // const url = response.data.redirectSite;
+            // //taking user to redirected url
+            // window.location.href = url;
           }).catch(err =>{
               console.log(err);
           })

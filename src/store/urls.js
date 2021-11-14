@@ -5,7 +5,7 @@ let prev_urls = JSON.parse(localStorage.getItem("urls"));
 let initial_data = [
     {
         "id": "618a11602ae526adc32ff4bc",
-        "shortenedLink": "http://chotaninja.herokuapp.com/a887b37",
+        "shortenedLink": "https://chota.ninja/a887b37",
         "actualLink": "https://www.google.co.in/",
         "total_clicks": 0,
         "meta": {

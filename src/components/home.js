@@ -7,7 +7,8 @@ import {particle_js_config} from '../config/particle';
 import cogoToast from "cogo-toast";
 import { useSelector, useDispatch } from "react-redux";
 import { urls_actions } from "../store/urls";
-
+import Typist from 'react-typist';
+import ninjapic from "../ninja.png";
 
 
 const Home = () => {
@@ -43,7 +44,12 @@ const Home = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [EndDate, setEndDate] = useState(new Date(+new Date() + 1*365*24*60*60*1000));
   const [Link, setLink] = useState("https://google.co.in");
- 
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    // document.title = `You clicked ${count} times`;
+    setCount(1);
+  }, [count]);
   
   const shortenLink = () =>{
     console.log("hi", startDate,"44",EndDate,"55",Link);
@@ -57,7 +63,7 @@ const Home = () => {
       url: "urls/anonymous/shortner",
       data: body,
     }).then(response =>{
-      console.log(response.data.data,888)
+      
       // const url = response.data.redirectSite;
       // //taking user to redirected url
       // window.location.href = url;
@@ -77,18 +83,53 @@ const Home = () => {
   let handleColor = (time) => {
     return time.getHours() > 12 ? "text-success" : "text-error";
   };
-  console.log(new Date(startDate).toISOString(),77788,new Date(EndDate).toISOString(),232323)
+  
     return (
      <>
   <Particles params={particle_js_config} />
       {
         <Container>
+          <div style ={{
+             marginTop:"100px",
+             position: "absolute",
+             top: 0,
+             width: "100%",
+             height: "100%"
+          }}>
+            <div >
+                <Row >
+                <Col sm={9} md ={9} className="d-flex justify-content-end"><div style = {{fontSize:"100px",fontWeight:500,color:"wheat"}}>Welcome to Chota</div> </Col>
+                <Col sm={3} md ={3} className="d-flex justify-content-start"><img src = {ninjapic} width="100px" height = "120px" style={{float:"left"}}/></Col>
+                </Row>
+              <Row >
+            {count ? (
+              <div className="d-flex justify-content-center">
+        <Typist cursor={{ show: false }} avgTypingDelay={90} onTypingDone={() => setCount(0)}>
+           <div style = {{color:"white", fontSize:"20px" , fontWeight:"bold"}}> Create shortlinks that expire !
+          <Typist.Backspace count={41} delay={800} />
+          Complete link demographics
+          <Typist.Backspace count={40} delay={1600} />
+          All Links are <span style={{color:"#35BF09"}}>ENCRYPTED</span> on DB
+          <Typist.Backspace count={40} delay={3200} />
+          More features on the way
+          </div>
+        </Typist>
+        </div>
+      ) : (
+        ""
+      )}
+      </Row>
+            
+            </div>
+            </div>
 
         <div style = {{marginTop:"380px",
        position: "absolute",
        top: 0,
        width: "100%",
-       height: "100%"
+       height: "100%",
+       
+      
       }}>
         <div >
             <Row>
@@ -100,22 +141,7 @@ const Home = () => {
       aria-describedby="basic-addon2"
       onChange = {(event)=>setLink(event.target.value)}
     />
-   
-    <DatePicker
-      showTimeSelect
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      timeClassName={handleColor}
-    />
-    
-    <DatePicker
-      showTimeSelect
-      selected={EndDate}
-      onChange={(date) => setEndDate(date)}
-      timeClassName={handleColor}
-    />
-
-    
+       
   </InputGroup>
                 </Col>
                 <Col sm = {12} md = {2} >
@@ -127,13 +153,34 @@ const Home = () => {
   </Button>
                 </Col>
             </Row>
+  <Row style ={{opacity:"0.8" }}>
+
+    <Col sm = {12} md={6} className ="d-flex justify-content-end">
+  <DatePicker
+      showTimeSelect
+      selected={startDate}
+      onChange={(date) => setStartDate(date)}
+      timeClassName={handleColor}
+    />
+    </Col>
+    <Col sm = {12} md={6} >
+    
+    <DatePicker
+      showTimeSelect
+      selected={EndDate}
+      onChange={(date) => setEndDate(date)}
+      timeClassName={handleColor}
+    />
+    </Col>
+  </Row>
+
             
         </div>
         
         <div className ="my-3">
           {urls.map(j =>{
             return(       
-           <Card style={{ width: '92.3%',marginTop:"20px" }}>
+           <Card style={{ width: '90.3%',marginTop:"20px",marginLeft:"35px",opacity:"0.8" }}>
             <Card.Body>
             
               <Card.Title>{j.meta.title}</Card.Title>
