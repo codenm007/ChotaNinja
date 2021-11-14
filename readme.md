@@ -1,4 +1,4 @@
-# Welcome to Awesome todo App!
+# Welcome to Chota.ninja link shortner service!
 
 ___Steps to get sarted:___
 *  Get into the folder and then copy paste this code :
@@ -9,7 +9,7 @@ yarn
 
 yarn start
 ```
-* A hosted version of the site here : https://awesometodo123.netlify.app/ (Do check it out )
+* A hosted version of the site here : https://chota.ninja/ (Do check it out )
 
 ___
 
