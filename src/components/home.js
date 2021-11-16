@@ -46,6 +46,22 @@ const Home = () => {
   const [Link, setLink] = useState("https://google.co.in");
   const [count, setCount] = useState(1);
 
+  let userlogin = localStorage.getItem("connect.sid")
+  console.log(userlogin,777)
+
+  axios({
+    method: 'get',
+    url: "user/personal_info",
+    withCredentials:true
+  }).then(response => {
+
+    console.log(response,988989);
+
+  }).catch(err => {
+
+   console.log(err,787223)
+  })
+
   useEffect(() => {
     // document.title = `You clicked ${count} times`;
     setCount(1);
@@ -154,7 +170,7 @@ const Home = () => {
                   </Button>
                 </Col>
               </Row>
-              <Row style={{ opacity: "0.8" }}>
+              <Row>
               <Col sm={12} md={6} className="d-flex justify-content-end">
                   <DatePicker
                     showTimeSelect
@@ -202,7 +218,7 @@ const Home = () => {
                       </Button>
                     </Card.Body>
                   </Card>)
-              })}
+              }).sort().reverse()}
             </div>
           </div>
 
