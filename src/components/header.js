@@ -1,7 +1,7 @@
 import {Nav,Navbar,Container,Button,NavDropdown} from 'react-bootstrap';
 import ninjapic from "../ninja.png";
 import isLoggedIn from "../functions/isLoggedIn";
-
+import LogOut from '../functions/logout';
 
 const Header = () => {
   return (
@@ -20,7 +20,7 @@ const Header = () => {
         }
         menuVariant="dark"
       >
-        <NavDropdown.Item href="#action/3.1">Log out</NavDropdown.Item>
+        <NavDropdown.Item onClick = {()=>LogOut()}>Log out</NavDropdown.Item>
        
       </NavDropdown>
         ):(<Button>Sign In/Log In</Button>)}
