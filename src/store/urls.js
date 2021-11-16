@@ -39,6 +39,10 @@ const urls_slice = createSlice({
             let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
             state[urlIndex].total_clicks = index.total_clicks;
         },
+        change_url_name(state,{payload:index}){
+            let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
+            state[urlIndex].shortenedLink = index.shortenedLink;
+        },
         remove_url(state,{payload:index}){
             state.splice(index, 1);
         }

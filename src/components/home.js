@@ -11,6 +11,9 @@ import Typist from 'react-typist';
 import ninjapic from "../ninja.png";
 
 
+//importing components
+import RenameUrl from "./renameurlComponent";
+
 const Home = () => {
 
   const dispatch = useDispatch();
@@ -46,21 +49,6 @@ const Home = () => {
   const [Link, setLink] = useState("https://google.co.in");
   const [count, setCount] = useState(1);
 
-  let userlogin = localStorage.getItem("connect.sid")
-  console.log(userlogin,777)
-
-  axios({
-    method: 'get',
-    url: "user/personal_info",
-    withCredentials:true
-  }).then(response => {
-
-    console.log(response,988989);
-
-  }).catch(err => {
-
-   console.log(err,787223)
-  })
 
   useEffect(() => {
     // document.title = `You clicked ${count} times`;
@@ -212,10 +200,13 @@ const Home = () => {
                         <hr />
                         <h5 style={{ color: "red", cursor: "copy" }}><div className={{ color: "red" }} onClick={() => copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
                       </Card.Text>
+                      <RenameUrl id = {j.id}/>
                       <Button variant="primary" className="float-end">
                         Clicks <Badge bg="secondary">{j.total_clicks}</Badge>
                         <span className="visually-hidden">Clicks</span>
                       </Button>
+
+                      
                     </Card.Body>
                   </Card>)
               }).sort().reverse()}
