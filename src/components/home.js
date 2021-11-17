@@ -17,13 +17,11 @@ import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 import RenameUrl from "./renameurlComponent";
 import GetTrackingInfo from "./GetTrackingInfo";
 
-localStorage.setItem("CloudUrlsLoaded",false);
-
 const Home = () => {
 
   const dispatch = useDispatch();
   const urls = useSelector((state) => state.urls);
-
+  
 
   const getTotalClicks = (id) => {
     console.log(id, 9878);
@@ -76,26 +74,35 @@ const Home = () => {
     
 
     let accountUrls = data.data.data;
-    console.log(1212);
+    
     //this case will only happen when this two are not synced
+    
+   
+
+    
     if(JSON.stringify(accountUrls) != JSON.stringify(urls)){
-      console.log(2121 ,JSON.stringify(accountUrls),JSON.stringify(urls) );
+
+      console.log("NILANJAN21211212121212221121212")
+
       accountUrls.map(accUrl =>{
-       // console.log(accUrl , "acclUrl");
+        console.log(accUrl , "acclUrl");
         if(urls.length == 0){
           dispatch(urls_actions.add_url(accUrl));
+          
         }else{
           urls.map(localUrl =>{
           //  console.log(localUrl , 92933029);
             if(localUrl.id != accUrl.id){
-             // console.log("unmatched urls from cloud" , accUrl.id, localUrl.id);
+              console.log("unmatched urls from cloud" , accUrl.id, localUrl.id);
               dispatch(urls_actions.add_url(accUrl));
+              
             }
           })
         }
 
       })
     }
+  
     // dispatch(urls_actions.clear_local());
     // if(urls.length == 0){
     //   accountUrls.map(accUrl =>{
@@ -117,10 +124,7 @@ const Home = () => {
     if(isLoggedIn()){
  getSyncedUrls(urls); //getting your account urls
     }
-   },[])
-
- 
-  //syncing and updating things
+      //syncing and updating things
   urls.forEach(async url => {
     getTotalClicks(url.id);
     if(isLoggedIn()){ //if logged in then starting cloud processes
@@ -133,13 +137,13 @@ const Home = () => {
     }  
   })
   localStorage.setItem("urls", JSON.stringify(urls));
+   },[])
+
 
   const [startDate, setStartDate] = useState(new Date());
   const [EndDate, setEndDate] = useState(new Date(+new Date() + 1 * 365 * 24 * 60 * 60 * 1000));
   const [Link, setLink] = useState("");
   const [count, setCount] = useState(1);
-  const [Trackingdisabled , setTrackingdisabled] = useState(false);
-  const [OpenTrackingInfoModal,setOpenTrackingInfoModal] =useState(false);
 
 
   useEffect(() => {
@@ -175,10 +179,6 @@ const Home = () => {
     })
   }
 
-  const GetTrackingInfofun =(id) =>{
-    console.log(id,88);
-    setOpenTrackingInfoModal(true);
-  }
 
   const copytoClipboard = (text) => {
     navigator.clipboard.writeText(text);
@@ -301,16 +301,16 @@ const Home = () => {
                         <h5 style={{ color: "red", cursor: "copy" }}><div className={{ color: "red" }} onClick={() => copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
                       </Card.Text>
                       <RenameUrl id = {j.id}/>
-                      <Button 
+                      {/* <Button 
                       variant="primary" 
                       onClick = {()=>GetTrackingInfofun(j.id)}
                       disabled = {Trackingdisabled}
                       className="float-end">
                         Clicks <Badge bg="secondary">{j.total_clicks}</Badge>
                         <span className="visually-hidden">Clicks</span>
-                      </Button>
-
-                      < GetTrackingInfo state = {OpenTrackingInfoModal} />
+                      </Button> */}
+ 
+                      < GetTrackingInfo id = {j.id} totalClicks = {j.total_clicks} />
 
                       
                     </Card.Body>
