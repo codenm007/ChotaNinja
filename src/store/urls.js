@@ -3,18 +3,8 @@ import axios from 'axios';
 let prev_urls = JSON.parse(localStorage.getItem("urls"));
 
 let initial_data = [
-    {
-        "id": "618a11602ae526adc32ff4bc",
-        "shortenedLink": "https://chota.ninja/a887b37",
-        "actualLink": "https://www.google.co.in/",
-        "total_clicks": 0,
-        "meta": {
-            "title": "Google",
-            "description": "Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for."
-        },
-        "opensAt": "2021-11-09T12:30:52.777Z",
-        "expiresAt": "2021-11-23T12:40:52.777Z"
-    }];
+
+];
 
 let start_event = [];
 
@@ -35,6 +25,9 @@ const urls_slice = createSlice({
         add_url(state,{payload}){
             state.push(payload);
         },
+        clear_local(state){
+            state = [];
+        },
         refresh_total_clicks(state,{payload:index}){
             let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
             state[urlIndex].total_clicks = index.total_clicks;
@@ -42,6 +35,10 @@ const urls_slice = createSlice({
         change_url_name(state,{payload:index}){
             let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
             state[urlIndex].shortenedLink = index.shortenedLink;
+        },
+        url_sync_success(state,{payload:index}){
+            let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
+            state[urlIndex].is_synced = true;
         },
         remove_url(state,{payload:index}){
             state.splice(index, 1);

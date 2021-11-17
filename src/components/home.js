@@ -9,10 +9,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { urls_actions } from "../store/urls";
 import Typist from 'react-typist';
 import ninjapic from "../ninja.png";
-
+import isLoggedIn from "../functions/isLoggedIn";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 
 //importing components
 import RenameUrl from "./renameurlComponent";
+import GetTrackingInfo from "./GetTrackingInfo";
+
+localStorage.setItem("CloudUrlsLoaded",false);
 
 const Home = () => {
 
@@ -38,16 +43,103 @@ const Home = () => {
       dispatch(urls_actions.refresh_total_clicks({ id: id, total_clicks: "NA" }));
     })
   }
-  //syncing total clicks 
+
+  const syncLocalUrls = (id) =>{
+    const body = {
+      url_id: id
+    }
+    axios({
+      method: 'post',
+      url: "urls/syncUserurls",
+      data: body,
+      headers:{
+        "Authorization":`Bearer ${localStorage.getItem("token")}`
+      }
+    }).then(() => {
+      dispatch(urls_actions.url_sync_success({ id: id}));
+
+    }).catch(err => {
+      console.log(err , 99);
+      cogoToast.error("Syncing of urls failed");
+    })
+  }
+
+ const getSyncedUrls = (urls) =>{
+   
+  axios({
+    method: 'get',
+    url: "urls/mylinks",
+    headers:{
+      "Authorization":`Bearer ${localStorage.getItem("token")}`
+    }
+  }).then((data) => {
+    
+
+    let accountUrls = data.data.data;
+    console.log(1212);
+    //this case will only happen when this two are not synced
+    if(JSON.stringify(accountUrls) != JSON.stringify(urls)){
+      console.log(2121 ,JSON.stringify(accountUrls),JSON.stringify(urls) );
+      accountUrls.map(accUrl =>{
+       // console.log(accUrl , "acclUrl");
+        if(urls.length == 0){
+          dispatch(urls_actions.add_url(accUrl));
+        }else{
+          urls.map(localUrl =>{
+          //  console.log(localUrl , 92933029);
+            if(localUrl.id != accUrl.id){
+             // console.log("unmatched urls from cloud" , accUrl.id, localUrl.id);
+              dispatch(urls_actions.add_url(accUrl));
+            }
+          })
+        }
+
+      })
+    }
+    // dispatch(urls_actions.clear_local());
+    // if(urls.length == 0){
+    //   accountUrls.map(accUrl =>{
+    //     console.log(accUrl,878787)
+    //     dispatch(urls_actions.add_url(accUrl));
+    //   });
+    // }
+    
+
+
+  }).catch(err => {
+    console.log(err , 9976);
+    cogoToast.error("getting cloud urls failed");
+  })
+ }
+
+
+   useEffect(()=>{
+    if(isLoggedIn()){
+ getSyncedUrls(urls); //getting your account urls
+    }
+   },[])
+
+ 
+  //syncing and updating things
   urls.forEach(async url => {
     getTotalClicks(url.id);
+    if(isLoggedIn()){ //if logged in then starting cloud processes
+      
+      console.log(!url.is_synced,88)
+      if(!url.is_synced){ // syning urls if user urls are not synced 
+        cogoToast.success("Syncing Urls with your account !");
+        syncLocalUrls(url.id); 
+      }
+    }  
   })
   localStorage.setItem("urls", JSON.stringify(urls));
 
   const [startDate, setStartDate] = useState(new Date());
   const [EndDate, setEndDate] = useState(new Date(+new Date() + 1 * 365 * 24 * 60 * 60 * 1000));
-  const [Link, setLink] = useState("https://google.co.in");
+  const [Link, setLink] = useState("");
   const [count, setCount] = useState(1);
+  const [Trackingdisabled , setTrackingdisabled] = useState(false);
+  const [OpenTrackingInfoModal,setOpenTrackingInfoModal] =useState(false);
 
 
   useEffect(() => {
@@ -56,7 +148,9 @@ const Home = () => {
   }, [count]);
 
   const shortenLink = () => {
-    console.log("hi", startDate, "44", EndDate, "55", Link);
+    if(Link.length == 0){
+      return cogoToast.error("Please paste your link !"); 
+    }
     const body = {
       redirects_to: Link,
       will_open_at: startDate,
@@ -73,11 +167,17 @@ const Home = () => {
       // window.location.href = url;
       dispatch(urls_actions.add_url(response.data.data));
       cogoToast.success("Yaah ! Link shortened successfully !");
+      setLink("");
       // set_show_urls(false);
     }).catch(err => {
-      // console.log(err , 9911)
+       console.log(err , 9911)
       cogoToast.error(err.response.data.message, { position: 'top-right', hideAfter: 4 });
     })
+  }
+
+  const GetTrackingInfofun =(id) =>{
+    console.log(id,88);
+    setOpenTrackingInfoModal(true);
   }
 
   const copytoClipboard = (text) => {
@@ -188,7 +288,7 @@ const Home = () => {
                   <Card style={{ width: '90.3%', marginTop: "20px", marginLeft: "35px", opacity: "0.8" }}>
                     <Card.Body>
 
-                      <Card.Title>{j.meta.title}</Card.Title>
+                      <Card.Title>{j.meta.title} {j.is_synced?<span className ="px-2"><FontAwesomeIcon icon={faCloudUploadAlt} /></span>:""}</Card.Title>
                       <p>{j.meta.description}</p>
                       <div style={{ float: "right" }}>
                         <h6>Opens on :   {`${new Date(j.opensAt)}`}</h6>
@@ -201,10 +301,16 @@ const Home = () => {
                         <h5 style={{ color: "red", cursor: "copy" }}><div className={{ color: "red" }} onClick={() => copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
                       </Card.Text>
                       <RenameUrl id = {j.id}/>
-                      <Button variant="primary" className="float-end">
+                      <Button 
+                      variant="primary" 
+                      onClick = {()=>GetTrackingInfofun(j.id)}
+                      disabled = {Trackingdisabled}
+                      className="float-end">
                         Clicks <Badge bg="secondary">{j.total_clicks}</Badge>
                         <span className="visually-hidden">Clicks</span>
                       </Button>
+
+                      < GetTrackingInfo state = {OpenTrackingInfoModal} />
 
                       
                     </Card.Body>
