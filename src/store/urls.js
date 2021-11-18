@@ -2,9 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 let prev_urls = JSON.parse(localStorage.getItem("urls"));
 
-let initial_data = [
-
-];
+let initial_data = [];
 
 let start_event = [];
 
