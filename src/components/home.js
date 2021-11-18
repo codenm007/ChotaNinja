@@ -127,8 +127,8 @@ const Home = () => {
     if(isLoggedIn()){
  getSyncedUrls(urls); //getting your account urls
     }
+  },[])
       //syncing and updating things
-
       urls.forEach(async url => {
         getTotalClicks(url.id);
         if(isLoggedIn()){ //if logged in then starting cloud processes
@@ -141,7 +141,9 @@ const Home = () => {
         }  
       })
        localStorage.setItem("urls", JSON.stringify(urls));  
-   },[])
+   
+    
+
 
 
 
@@ -174,9 +176,20 @@ const Home = () => {
       // const url = response.data.redirectSite;
       // //taking user to redirected url
       // window.location.href = url;
-      dispatch(urls_actions.add_url(response.data.data));
-      cogoToast.success("Yaah ! Link shortened successfully !");
-      setLink("");
+      const newUrl = response.data.data;
+      console.log(newUrl,992334)
+      if(newUrl){
+        try{
+          dispatch(urls_actions.add_url(newUrl));
+        }catch(err){
+          console.log(err,27328)
+        }
+        
+       
+        cogoToast.success("Yaah ! Link shortened successfully !");
+      }
+      
+      //setLink("");
       // set_show_urls(false);
     }).catch(err => {
        console.log(err , 9911)
@@ -290,6 +303,7 @@ const Home = () => {
             <div className="my-3">
               {urls.map(j => {
                 return (
+                  // <div>{j.meta.description}</div>
                   <Card style={{ width: '90.3%', marginTop: "20px", marginLeft: "35px", opacity: "0.8" }}>
                     <Card.Body>
 
@@ -317,11 +331,11 @@ const Home = () => {
                       </>
                       ):(
                         <>
-                        <div>
-                          <Link to="/login">
+                        <span>
+                          <a href="/login" className = "px-3" style ={{textDecoration:"none",fontWeight:"bold"}}>
                             Register for more features
-                          </Link>
-                        </div>
+                          </a>
+                        </span>
                         </>
                       )}
 
@@ -338,7 +352,8 @@ const Home = () => {
 
                       
                     </Card.Body>
-                  </Card>)
+                  </Card>
+                  )
               }).sort().reverse()}
             </div>
           </div>
