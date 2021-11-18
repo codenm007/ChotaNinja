@@ -10,7 +10,7 @@ import Switch from "react-switch";
 
 
 
-const PassWordedLinks = ({id}) =>{
+const PassWordedLinks = ({id,password}) =>{
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const [NewPass,setNewPass] = useState("");
@@ -20,41 +20,75 @@ const PassWordedLinks = ({id}) =>{
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const CusTomizeUrl = (id,code) => {
+    const HandleModal = (id) => {
 
-      if(code.length === 0){
-        return cogoToast.error("Custom name cannot be empty !");
-      }
       
       const body = {
-        url_id: id,
-        password:code
+        url_id: id
       }
-      if(show){
-        console.log("disable password");
+
+      if(password){
+        axios({
+            method: 'post',
+            url: "urls/DisableurlPassword",
+            data: body,
+            headers:{
+                "Authorization":`Bearer ${localStorage.getItem("token")}`
+              }
+          }).then(response => {
+            cogoToast.success(response.data.message);
+            
+            //changing url name
+            dispatch(urls_actions.passworded({ id: id}));
+            //closing the modal
+            setShow(false);
+        
+        
+          }).catch(err => {
+    
+            cogoToast.error(err.response.data.message);
+            console.log(err,9929);
+          })
       }else{
 
-      axios({
-        method: 'post',
-        url: "urls/urlAddPassword",
-        data: body,
-        headers:{
-            "Authorization":`Bearer ${localStorage.getItem("token")}`
-          }
-      }).then(response => {
-        cogoToast.success(response.data.message);
-        
-        //changing url name
-        dispatch(urls_actions.passworded({ id: id}));
-        //closing the modal
-        setShow(true);
-    
-      }).catch(err => {
+        handleShow();
 
-        cogoToast.error(err.response.data.message);
-        console.log(err,999);
-      })
+
+      }
+
+    
     }
+
+    const PasswodLinks = (id,code) =>{
+        const body = {
+            url_id: id,
+            password:code
+          }
+        if(code.length === 0){
+            return cogoToast.error("Custom name cannot be empty !");
+          }
+              console.log("nilanjan")
+              axios({
+                method: 'post',
+                url: "urls/urlAddPassword",
+                data: body,
+                headers:{
+                    "Authorization":`Bearer ${localStorage.getItem("token")}`
+                  }
+              }).then(response => {
+                cogoToast.success(response.data.message);
+                
+                //changing url name
+                dispatch(urls_actions.passworded({ id: id}));
+                //closing the modal
+                handleClose();
+            
+            
+              }).catch(err => {
+        
+                cogoToast.error(err.response.data.message);
+                console.log(err,999);
+              })
     }
   
     return (
@@ -62,8 +96,8 @@ const PassWordedLinks = ({id}) =>{
         <label>
         <span className ="px-3" style={{fontWeight:"bold"}}>Protect your link  <FontAwesomeIcon icon={faKey} style={{paddingLeft:"3px"}} /></span>
         <Switch
-          onChange={handleShow}
-          checked={show}
+          onChange={()=>{HandleModal(id,NewPass)}}
+          checked={password}
           className="react-switch"
         />
       </label>
@@ -90,7 +124,7 @@ const PassWordedLinks = ({id}) =>{
                   </InputGroup>
           </Modal.Body>
           <Modal.Footer>
-          <Button variant="primary" onClick = {()=>CusTomizeUrl(id,NewPass)}>Add Password</Button>
+          <Button variant="primary" onClick = {()=>PasswodLinks(id,NewPass)}>Add Password</Button>
             <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>

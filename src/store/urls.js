@@ -46,7 +46,7 @@ const urls_slice = createSlice({
         },
         passworded(state,{payload:index}){
             let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
-            state[urlIndex].is_passworded = true;
+            state[urlIndex].is_passworded = !state[urlIndex].is_passworded;
         },
         remove_url(state,{payload:index}){
             state.splice(index, 1);

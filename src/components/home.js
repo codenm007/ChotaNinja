@@ -12,6 +12,7 @@ import ninjapic from "../ninja.png";
 import isLoggedIn from "../functions/isLoggedIn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
+import {Link } from 'react-router-dom';
 
 //importing components
 import RenameUrl from "./renameurlComponent";
@@ -127,21 +128,22 @@ const Home = () => {
  getSyncedUrls(urls); //getting your account urls
     }
       //syncing and updating things
-  urls.forEach(async url => {
-    getTotalClicks(url.id);
-    if(isLoggedIn()){ //if logged in then starting cloud processes
-      
-      console.log(!url.is_synced,88)
-      if(!url.is_synced){ // syning urls if user urls are not synced 
-        cogoToast.success("Syncing Urls with your account !");
-        syncLocalUrls(url.id); 
-      }
-    }  
-  })
-  localStorage.setItem("urls", JSON.stringify(urls));
+
+      urls.forEach(async url => {
+        getTotalClicks(url.id);
+        if(isLoggedIn()){ //if logged in then starting cloud processes
+          
+          console.log(!url.is_synced,88)
+          if(!url.is_synced){ // syning urls if user urls are not synced 
+            cogoToast.success("Syncing Urls with your account !");
+            syncLocalUrls(url.id); 
+          }
+        }  
+      })
+       localStorage.setItem("urls", JSON.stringify(urls));  
    },[])
 
-   
+
 
   const [startDate, setStartDate] = useState(new Date());
   const [EndDate, setEndDate] = useState(new Date(+new Date() + 1 * 365 * 24 * 60 * 60 * 1000));
@@ -304,12 +306,25 @@ const Home = () => {
                         <h5 style={{ color: "red", cursor: "copy" }}><div className={{ color: "red" }} onClick={() => copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
                       </Card.Text>
                       <RenameUrl id = {j.id}/>
+                      {isLoggedIn()?(
+                        <>
                       <span className = "px-2">
                       <BlockUrl id = {j.id} />
                       </span>
                       <span className = "px-2">
                       <PassWordedLinks id = {j.id} password ={j.is_passworded}/>
                       </span>
+                      </>
+                      ):(
+                        <>
+                        <div>
+                          <Link to="/login">
+                            Register for more features
+                          </Link>
+                        </div>
+                        </>
+                      )}
+
                       {/* <Button 
                       variant="primary" 
                       onClick = {()=>GetTrackingInfofun(j.id)}
