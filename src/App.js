@@ -11,6 +11,7 @@ import Calendar from './components/calendar';
 import Home from './components/home';
 import PageNotFound from './components/404.js';
 import Login from './components/login';
+import SecureRedirect from "./components/Secure_redirect";
 
 export default function App() {
   return (
@@ -30,9 +31,9 @@ export default function App() {
           <Route exact path="/login">
             <Login />
           </Route>
-          {/* <Route  path="/">
-            <Redirect />
-          </Route> */}
+          <Route  path="/secure">
+            <SecureRedirect />
+          </Route>
         </Switch>
       </div>
       

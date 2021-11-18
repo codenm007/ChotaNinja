@@ -40,6 +40,14 @@ const urls_slice = createSlice({
             let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
             state[urlIndex].is_synced = true;
         },
+        block_url(state,{payload:index}){
+            let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
+            state[urlIndex].is_blocked = index.is_blocked;
+        },
+        passworded(state,{payload:index}){
+            let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
+            state[urlIndex].is_passworded = true;
+        },
         remove_url(state,{payload:index}){
             state.splice(index, 1);
         }

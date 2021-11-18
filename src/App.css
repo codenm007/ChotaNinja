@@ -37,3 +37,8 @@
     transform: rotate(360deg);
   }
 }
+
+.tracking_info_modal {
+  width: 70vw;  /* Occupy the 90% of the screen width */
+  max-width: 70vw;
+} 

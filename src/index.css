@@ -14,3 +14,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.tracking_info_modal {
+  width: 70vw;  /* Occupy the 90% of the screen width */
+  max-width: 70vw;
+} 
+
+.react-switch {
+  vertical-align: middle;
+  margin-left: 4px;
+}

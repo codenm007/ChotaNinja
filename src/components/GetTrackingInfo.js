@@ -1,13 +1,17 @@
-import {Button,Modal,InputGroup,FormControl,Badge } from 'react-bootstrap';
+import {Button,Modal,Table,Badge } from 'react-bootstrap';
 import { useState, useEffect } from "react";
 import isLoggedIn from "../functions/isLoggedIn";
+import axios from "axios";
+import cogoToast from 'cogo-toast';
 
-const GetTrackingInfo = ({id,totalClicks}) =>{
+const GetTrackingInfo = ({id,totalClicks,shortUrl}) =>{
 
   const [Trackingdisabled , setTrackingdisabled] = useState(true);
     const [show, setShow] = useState(false);
+    const [tableData , settableData] = useState([]);
 
     const handleClose = () => setShow(false);
+   
    
   useEffect(()=>{
     if(isLoggedIn()){
@@ -20,6 +24,24 @@ const GetTrackingInfo = ({id,totalClicks}) =>{
   const GetTrackingInfofun =(id) =>{
     console.log(id,882);
     setShow(true);
+    const body = {
+      id: id
+    }
+    axios({
+      method: 'post',
+      url: "urls/link_analytics",
+      data: body,
+      headers:{
+        "Authorization":`Bearer ${localStorage.getItem("token")}`
+      }
+    }).then((linkdata) => {
+      console.log(linkdata.data.data)
+      settableData(linkdata.data.data);
+
+    }).catch(err => {
+      
+      cogoToast.error("Error in fetching link analytics");
+    })
     
   }
 
@@ -37,20 +59,48 @@ const GetTrackingInfo = ({id,totalClicks}) =>{
 show={show}
 onHide={handleClose}
 backdrop="static"
+dialogClassName="tracking_info_modal"
 keyboard={false}
 >
 <Modal.Header closeButton>
-  <Modal.Title>Modal title{id}</Modal.Title>
+  <Modal.Title>Tracking info for {shortUrl}</Modal.Title>
 </Modal.Header>
 <Modal.Body>
-  I will not close if you click outside me. Don't even try to press
-  escape key.
+
+<Table striped bordered hover size="sm">
+  <thead>
+    <tr>
+      <th>User IP</th>
+      <th>Browser</th>
+      <th>OS</th>
+      <th>Last Checked</th>
+      <th>Country</th>
+      <th>City</th>
+      <th>Timezone</th>
+    </tr>
+  </thead>
+  <tbody>
+    {tableData.map(user =>{
+      return(
+      <tr>
+      <td>{user.user_ip}</td>
+      <td>{user.user_browser}</td>
+      <td>{user.user_os}</td>
+      <td>{`${new Date(user.createdAt)}`}</td>
+      <td>{user.country}</td>
+      <td>{user.city}</td>
+      <td>{user.timezone}</td>
+    </tr>)
+    })}
+  </tbody>
+</Table>
+
 </Modal.Body>
 <Modal.Footer>
   <Button variant="secondary" onClick={handleClose}>
     Close
   </Button>
-  <Button variant="primary">Understood</Button>
+  
 </Modal.Footer>
 </Modal>
 </>

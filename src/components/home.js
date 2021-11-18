@@ -16,6 +16,8 @@ import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
 //importing components
 import RenameUrl from "./renameurlComponent";
 import GetTrackingInfo from "./GetTrackingInfo";
+import BlockUrl from "./BlockUrlComponent";
+import PassWordedLinks from "./PasswordedLinks";
 
 const Home = () => {
 
@@ -139,6 +141,7 @@ const Home = () => {
   localStorage.setItem("urls", JSON.stringify(urls));
    },[])
 
+   
 
   const [startDate, setStartDate] = useState(new Date());
   const [EndDate, setEndDate] = useState(new Date(+new Date() + 1 * 365 * 24 * 60 * 60 * 1000));
@@ -288,7 +291,7 @@ const Home = () => {
                   <Card style={{ width: '90.3%', marginTop: "20px", marginLeft: "35px", opacity: "0.8" }}>
                     <Card.Body>
 
-                      <Card.Title>{j.meta.title} {j.is_synced?<span className ="px-2"><FontAwesomeIcon icon={faCloudUploadAlt} /></span>:""}</Card.Title>
+                      <Card.Title>{j.meta.title} {j.is_synced?<span className ="px-2"><FontAwesomeIcon icon={faCloudUploadAlt} style={{color:"#4db8ff"}} /></span>:""}</Card.Title>
                       <p>{j.meta.description}</p>
                       <div style={{ float: "right" }}>
                         <h6>Opens on :   {`${new Date(j.opensAt)}`}</h6>
@@ -301,6 +304,12 @@ const Home = () => {
                         <h5 style={{ color: "red", cursor: "copy" }}><div className={{ color: "red" }} onClick={() => copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
                       </Card.Text>
                       <RenameUrl id = {j.id}/>
+                      <span className = "px-2">
+                      <BlockUrl id = {j.id} />
+                      </span>
+                      <span className = "px-2">
+                      <PassWordedLinks id = {j.id} password ={j.is_passworded}/>
+                      </span>
                       {/* <Button 
                       variant="primary" 
                       onClick = {()=>GetTrackingInfofun(j.id)}
@@ -310,7 +319,7 @@ const Home = () => {
                         <span className="visually-hidden">Clicks</span>
                       </Button> */}
  
-                      < GetTrackingInfo id = {j.id} totalClicks = {j.total_clicks} />
+                      < GetTrackingInfo id = {j.id} totalClicks = {j.total_clicks} shortUrl = {j.shortenedLink} />
 
                       
                     </Card.Body>
