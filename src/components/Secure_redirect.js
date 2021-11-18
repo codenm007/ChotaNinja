@@ -7,7 +7,14 @@ import cogoToast from "cogo-toast";
 
 const SecureRedirect = () => {
     //taking the pathname which need  to be forwaded 
-    const pathname = window.location.pathname.slice(8);
+    
+    function stripTrailingSlash(str) {
+      if(str.substr(-1) === '/') {
+          return str.substr(0, str.length - 1);
+      }
+      return str;
+  }
+  const pathname = stripTrailingSlash(window.location.pathname.slice(8));
     const [loading,setloading] = useState(false);
     const [password,setPass] = useState("");
 
