@@ -21,7 +21,13 @@ const urls_slice = createSlice({
     initialState:start_event,
     reducers:{
         add_url(state,{payload}){
-            state.push(payload);
+            let urlIndex = state.findIndex((arrow) => arrow.id === payload.id);
+           
+            if(urlIndex === -1){
+                state.push(payload);
+                console.log(payload,"payload");
+            }
+
         },
         clear_local(state){
             state = [];

@@ -66,6 +66,7 @@ const Home = () => {
   }
 
  const getSyncedUrls = (urls) =>{
+   console.log(12488)
    
   axios({
     method: 'get',
@@ -92,6 +93,7 @@ const Home = () => {
         if(urls.length == 0){
           dispatch(urls_actions.add_url(accUrl));
           
+          
         }else{
           urls.map(localUrl =>{
           //  console.log(localUrl , 92933029);
@@ -104,6 +106,9 @@ const Home = () => {
         }
 
       })
+
+      localStorage.setItem("syncStore",true);
+
     }
   
     // dispatch(urls_actions.clear_local());
@@ -124,23 +129,32 @@ const Home = () => {
 
 
    useEffect(()=>{
+
     if(isLoggedIn()){
- getSyncedUrls(urls); //getting your account urls
+      const SyncStore = localStorage.getItem("syncStore");
+      console.log(SyncStore,"sync store")
+      if(SyncStore == null){
+        getSyncedUrls(urls); //getting your account urls
+      }
     }
-  },[])
+  },[urls])
+
+
+    urls.forEach(async url => {
+      getTotalClicks(url.id);
+      if(isLoggedIn()){ //if logged in then starting cloud processes
+        
+        console.log(!url.is_synced,88)
+        if(!url.is_synced){ // syning urls if user urls are not synced 
+          cogoToast.success("Syncing Urls with your account !");
+          syncLocalUrls(url.id); 
+        }
+      }  
+    })
+     localStorage.setItem("urls", JSON.stringify(urls));  
+ 
       //syncing and updating things
-      urls.forEach(async url => {
-        getTotalClicks(url.id);
-        if(isLoggedIn()){ //if logged in then starting cloud processes
-          
-          console.log(!url.is_synced,88)
-          if(!url.is_synced){ // syning urls if user urls are not synced 
-            cogoToast.success("Syncing Urls with your account !");
-            syncLocalUrls(url.id); 
-          }
-        }  
-      })
-       localStorage.setItem("urls", JSON.stringify(urls));  
+
    
     
 

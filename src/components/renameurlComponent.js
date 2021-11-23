@@ -65,7 +65,7 @@ const RenameUrl = ({id}) =>{
           keyboard={false}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Modal title</Modal.Title>
+            <Modal.Title>Rename your url</Modal.Title>
           </Modal.Header>
           <Modal.Body>
           <InputGroup className="mb-3">
