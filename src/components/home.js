@@ -11,7 +11,7 @@ import Typist from 'react-typist';
 import ninjapic from "../ninja.png";
 import isLoggedIn from "../functions/isLoggedIn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCloudUploadAlt,faLock } from '@fortawesome/free-solid-svg-icons';
 import {Link } from 'react-router-dom';
 
 //importing components
@@ -132,7 +132,7 @@ const Home = () => {
 
     if(isLoggedIn()){
       const SyncStore = localStorage.getItem("syncStore");
-      console.log(SyncStore,"sync store")
+      //console.log(SyncStore,"sync store")
       if(SyncStore == null){
         getSyncedUrls(urls); //getting your account urls
       }
@@ -144,7 +144,7 @@ const Home = () => {
       getTotalClicks(url.id);
       if(isLoggedIn()){ //if logged in then starting cloud processes
         
-        console.log(!url.is_synced,88)
+        // console.log(!url.is_synced,88)
         if(!url.is_synced){ // syning urls if user urls are not synced 
           cogoToast.success("Syncing Urls with your account !");
           syncLocalUrls(url.id); 
@@ -247,7 +247,8 @@ const Home = () => {
                         <Typist.Backspace count={40} delay={1600} />
                         All Links are <span style={{ color: "#35BF09" }}>ENCRYPTED</span> on DB
                         <Typist.Backspace count={40} delay={3200} />
-                        More features on the way
+                        Passworded Links <span style={{ color: "#35BF09" }}> <FontAwesomeIcon icon={faLock} /> </span>
+                        
                       </div>
                     </Typist>
                   </div>
