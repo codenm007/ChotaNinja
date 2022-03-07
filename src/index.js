@@ -7,7 +7,7 @@ import './index.css';
 import App from './App';
 //importing our redux store
 import store from "./store/index";
-axios.defaults.baseURL = "http://localhost:8081/";
+axios.defaults.baseURL = "https://chota.ninja";
 ReactDOM.render(
  <Provider store = {store}> 
 <App />

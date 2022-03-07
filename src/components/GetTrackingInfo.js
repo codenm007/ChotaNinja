@@ -22,7 +22,7 @@ const GetTrackingInfo = ({id,totalClicks,shortUrl}) =>{
 
 
   const GetTrackingInfofun =(id) =>{
-    console.log(id,882);
+    
     setShow(true);
     const body = {
       id: id
@@ -35,7 +35,7 @@ const GetTrackingInfo = ({id,totalClicks,shortUrl}) =>{
         "Authorization":`Bearer ${localStorage.getItem("token")}`
       }
     }).then((linkdata) => {
-      console.log(linkdata.data.data)
+      
       settableData(linkdata.data.data);
 
     }).catch(err => {
