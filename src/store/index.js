@@ -2,12 +2,11 @@ import {configureStore} from '@reduxjs/toolkit';
 
 // import counter_reducer from './counter';
 
- import day_slice from './calendar.js';
- import events_slice from './events.js';
+
  import urls_slice from './urls.js';
 
 const store = configureStore({
-    reducer:{day:day_slice,events:events_slice,urls:urls_slice}
+    reducer:{urls:urls_slice}
 });
 
 

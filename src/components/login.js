@@ -7,7 +7,7 @@ const Login = () => {
    const onGoogleSuccess = (response) => {
       const access_token = response.tokenId;
 
-      console.log(response,"token")
+      
       axios({
          method: 'post',
          url: "user/auth/google",
@@ -22,12 +22,12 @@ const Login = () => {
 
         window.location.href = "/"
       }).catch((err) => {
-         console.log(err,99);
+         
        // throw new Error(err);
       })
     }
     const onGoogleFailure = (err) => {
-       console.log(err,99900909);
+      //  console.log(err,99900909);
     }
 return(
     <>

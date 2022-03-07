@@ -41,7 +41,7 @@ const BlockUrl = ({id}) =>{
       }).catch(err => {
 
         cogoToast.error(err.response.data.message);
-        console.log(err,999);
+        // console.log(err,999);
       })
     }
 

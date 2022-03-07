@@ -18,6 +18,7 @@ import {Link } from 'react-router-dom';
 import RenameUrl from "./renameurlComponent";
 import GetTrackingInfo from "./GetTrackingInfo";
 import BlockUrl from "./BlockUrlComponent";
+import DeleteUrl from "./deleteComponent";
 import PassWordedLinks from "./PasswordedLinks";
 
 const Home = () => {
@@ -27,7 +28,7 @@ const Home = () => {
   
 
   const getTotalClicks = (id) => {
-    console.log(id, 9878);
+    
     const body = {
       id: id
     }
@@ -60,13 +61,13 @@ const Home = () => {
       dispatch(urls_actions.url_sync_success({ id: id}));
 
     }).catch(err => {
-      console.log(err , 99);
+      // console.log(err , 99);
       cogoToast.error("Syncing of urls failed");
     })
   }
 
  const getSyncedUrls = (urls) =>{
-   console.log(12488)
+  
    
   axios({
     method: 'get',
@@ -77,7 +78,7 @@ const Home = () => {
   }).then((data) => {
     
 
-    let accountUrls = data.data.data;
+    let accountUrls = data.data.data.sort(compareDescending);
     
     //this case will only happen when this two are not synced
     
@@ -86,10 +87,10 @@ const Home = () => {
     
     if(JSON.stringify(accountUrls) != JSON.stringify(urls)){
 
-      console.log("NILANJAN21211212121212221121212")
+    
 
       accountUrls.map(accUrl =>{
-        console.log(accUrl , "acclUrl");
+        
         if(urls.length == 0){
           dispatch(urls_actions.add_url(accUrl));
           
@@ -98,7 +99,7 @@ const Home = () => {
           urls.map(localUrl =>{
           //  console.log(localUrl , 92933029);
             if(localUrl.id != accUrl.id){
-              console.log("unmatched urls from cloud" , accUrl.id, localUrl.id);
+              
               dispatch(urls_actions.add_url(accUrl));
               
             }
@@ -122,7 +123,7 @@ const Home = () => {
 
 
   }).catch(err => {
-    console.log(err , 9976);
+    
     cogoToast.error("getting cloud urls failed");
   })
  }
@@ -191,12 +192,12 @@ const Home = () => {
       // //taking user to redirected url
       // window.location.href = url;
       const newUrl = response.data.data;
-      console.log(newUrl,992334)
+      
       if(newUrl){
         try{
           dispatch(urls_actions.add_url(newUrl));
         }catch(err){
-          console.log(err,27328)
+          
         }
         
        
@@ -206,7 +207,7 @@ const Home = () => {
       //setLink("");
       // set_show_urls(false);
     }).catch(err => {
-       console.log(err , 9911)
+       
       cogoToast.error(err.response.data.message, { position: 'top-right', hideAfter: 4 });
     })
   }
@@ -219,6 +220,16 @@ const Home = () => {
   let handleColor = (time) => {
     return time.getHours() > 12 ? "text-success" : "text-error";
   };
+
+  const compareDescending  = (a,b) =>{
+    if(new Date(b.createdAt) > new Date(a.createdAt)){
+      return +1
+    }else if (new Date(b.createdAt) < new Date(a.createdAt)){
+      return -1
+    }else{
+      return 0;
+    }
+  }
 
   return (
     <>
@@ -284,7 +295,7 @@ const Home = () => {
                 </Col>
                 <Col sm={12} md={2} >
                   <Button onClick={() => {
-                    console.log("hi")
+                    
                     shortenLink();
                   }} >
                     Shorten it
@@ -316,10 +327,11 @@ const Home = () => {
             </div>
 
             <div className="my-3">
-              {urls.map(j => {
+              {urls
+              .map(j => {
                 return (
                   // <div>{j.meta.description}</div>
-                  <Card style={{ width: '90.3%', marginTop: "20px", marginLeft: "35px", opacity: "0.8" }}>
+                  <Card key={j.id} style={{ width: '90.3%', marginTop: "20px", marginLeft: "35px", opacity: "0.8" }}>
                     <Card.Body>
 
                       <Card.Title>{j.meta.title} {j.is_synced?<span className ="px-2"><FontAwesomeIcon icon={faCloudUploadAlt} style={{color:"#4db8ff"}} /></span>:""}</Card.Title>
@@ -334,14 +346,17 @@ const Home = () => {
                         <hr />
                         <h5 style={{ color: "red", cursor: "copy" }}><div className={{ color: "red" }} onClick={() => copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
                       </Card.Text>
-                      <RenameUrl id = {j.id}/>
+                      <RenameUrl key ={j.id} id = {j.id}/>
                       {isLoggedIn()?(
                         <>
-                      <span className = "px-2">
-                      <BlockUrl id = {j.id} />
+                      <span style = {{marginLeft:"0.8rem"}}>
+                      <DeleteUrl key ={j.id} id = {j.id} />
                       </span>
                       <span className = "px-2">
-                      <PassWordedLinks id = {j.id} password ={j.is_passworded}/>
+                      <BlockUrl key ={j.id} id = {j.id} />
+                      </span>
+                      <span className = "px-2">
+                      <PassWordedLinks key ={j.id} id = {j.id} password ={j.is_passworded}/>
                       </span>
                       </>
                       ):(
@@ -363,13 +378,14 @@ const Home = () => {
                         <span className="visually-hidden">Clicks</span>
                       </Button> */}
  
-                      < GetTrackingInfo id = {j.id} totalClicks = {j.total_clicks} shortUrl = {j.shortenedLink} />
+                      < GetTrackingInfo key ={j.id} id = {j.id} totalClicks = {j.total_clicks} shortUrl = {j.shortenedLink} />
 
                       
                     </Card.Body>
                   </Card>
                   )
-              }).sort().reverse()}
+              })
+              }
             </div>
           </div>
 

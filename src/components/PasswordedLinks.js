@@ -15,7 +15,7 @@ const PassWordedLinks = ({id,password}) =>{
     const [show, setShow] = useState(false);
     const [NewPass,setNewPass] = useState("");
 
-    console.log("getting the id from rename ",id)
+   
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -47,7 +47,7 @@ const PassWordedLinks = ({id,password}) =>{
           }).catch(err => {
     
             cogoToast.error(err.response.data.message);
-            console.log(err,9929);
+           
           })
       }else{
 
@@ -67,7 +67,7 @@ const PassWordedLinks = ({id,password}) =>{
         if(code.length === 0){
             return cogoToast.error("Custom name cannot be empty !");
           }
-              console.log("nilanjan")
+             
               axios({
                 method: 'post',
                 url: "urls/urlAddPassword",
@@ -87,7 +87,7 @@ const PassWordedLinks = ({id,password}) =>{
               }).catch(err => {
         
                 cogoToast.error(err.response.data.message);
-                console.log(err,999);
+               
               })
     }
   

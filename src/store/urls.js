@@ -25,7 +25,6 @@ const urls_slice = createSlice({
            
             if(urlIndex === -1){
                 state.push(payload);
-                console.log(payload,"payload");
             }
 
         },
@@ -47,6 +46,10 @@ const urls_slice = createSlice({
         block_url(state,{payload:index}){
             let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
             state[urlIndex].is_blocked = index.is_blocked;
+        },
+        delete_url(state,{payload:index}){
+            let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
+            state.splice(urlIndex,1);
         },
         passworded(state,{payload:index}){
             let urlIndex = state.findIndex((arrow) => arrow.id === index.id)
