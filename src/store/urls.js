@@ -14,7 +14,15 @@ if(!prev_urls){ // app loads for first time or cookie cleared
 }
 
 
-
+const compareDescending  = (a,b) =>{
+    if(new Date(b.createdAt) > new Date(a.createdAt)){
+      return +1
+    }else if (new Date(b.createdAt) < new Date(a.createdAt)){
+      return -1
+    }else{
+      return 0;
+    }
+  }
 
 const urls_slice = createSlice({
     name:'Url',
@@ -26,6 +34,8 @@ const urls_slice = createSlice({
             if(urlIndex === -1){
                 state.push(payload);
             }
+
+            state.sort(compareDescending);
 
         },
         clear_local(state){
