@@ -346,17 +346,17 @@ const Home = () => {
                         <hr />
                         <h5 style={{ color: "red", cursor: "copy" }}><div className={{ color: "red" }} onClick={() => copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
                       </Card.Text>
-                      <RenameUrl key ={j.id} id = {j.id}/>
+                      <RenameUrl id = {j.id}/>
                       {isLoggedIn()?(
                         <>
                       <span style = {{marginLeft:"0.8rem"}}>
-                      <DeleteUrl key ={j.id} id = {j.id} />
+                      <DeleteUrl  id = {j.id} />
                       </span>
                       <span className = "px-2">
-                      <BlockUrl key ={j.id} id = {j.id} />
+                      <BlockUrl  id = {j.id} />
                       </span>
                       <span className = "px-2">
-                      <PassWordedLinks key ={j.id} id = {j.id} password ={j.is_passworded}/>
+                      <PassWordedLinks  id = {j.id} password ={j.is_passworded}/>
                       </span>
                       </>
                       ):(
@@ -378,7 +378,7 @@ const Home = () => {
                         <span className="visually-hidden">Clicks</span>
                       </Button> */}
  
-                      < GetTrackingInfo key ={j.id} id = {j.id} totalClicks = {j.total_clicks} shortUrl = {j.shortenedLink} />
+                      < GetTrackingInfo  id = {j.id} totalClicks = {j.total_clicks} shortUrl = {j.shortenedLink} />
 
                       
                     </Card.Body>
