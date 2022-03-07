@@ -12,7 +12,7 @@ import ninjapic from "../ninja.png";
 import isLoggedIn from "../functions/isLoggedIn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt,faLock } from '@fortawesome/free-solid-svg-icons';
-import {Link } from 'react-router-dom';
+import 'react-datepicker/dist/react-datepicker.css'
 
 //importing components
 import RenameUrl from "./renameurlComponent";
