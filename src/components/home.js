@@ -238,7 +238,7 @@ const Home = () => {
       {
         <Container>
           <div style={{
-            marginTop: "175px",
+            marginTop: "170px",
             position: "absolute",
             top: 0,
             width: "90%",
@@ -303,7 +303,7 @@ const Home = () => {
           </div>
 
           <div style={{
-            marginTop: "380px",
+            marginTop: "390px",
             position: "absolute",
             top: 0,
             width: "90%",
