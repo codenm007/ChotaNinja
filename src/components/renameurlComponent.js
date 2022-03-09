@@ -59,7 +59,6 @@ const RenameUrl = ({id}) =>{
         <Modal
           show={show}
           onHide={handleClose}
-          backdrop="static"
           keyboard={false}
         >
           <Modal.Header closeButton>

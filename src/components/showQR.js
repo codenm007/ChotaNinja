@@ -15,7 +15,6 @@ const QRCODE =  ({link}) =>{
     const qrCodeURL = document.getElementById('qrCodeEl')
       .toDataURL("image/png")
       .replace("image/png", "image/octet-stream");
-    console.log(qrCodeURL)
     let aEl = document.createElement("a");
     aEl.href = qrCodeURL;
     aEl.download = "QR_Code.png";
@@ -33,7 +32,6 @@ const QRCODE =  ({link}) =>{
         <Modal
           show={show}
           onHide={handleClose}
-          backdrop="static"
           keyboard={false}
         >
           <Modal.Header closeButton>

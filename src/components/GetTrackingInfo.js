@@ -58,7 +58,6 @@ const GetTrackingInfo = ({id,totalClicks,shortUrl}) =>{
 <Modal
 show={show}
 onHide={handleClose}
-backdrop="static"
 dialogClassName="tracking_info_modal"
 keyboard={false}
 width="fit-content"
