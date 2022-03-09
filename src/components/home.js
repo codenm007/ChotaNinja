@@ -355,10 +355,10 @@ const Home = () => {
                     <Card.Body>
 
                       <Card.Title>{j.meta.title} {j.is_synced?<span className ="px-2"><FontAwesomeIcon icon={faCloudUploadAlt} style={{color:"#4db8ff"}} /></span>:""}</Card.Title>
-                      <p>{j.meta.description}</p>
+                      <p style={{overflow:"hidden"}}>{j.meta.description}</p>
                       <div style={{ float: "right" }}>
-                        <h6>Opens on :   {`${new Date(j.opensAt)}`}</h6>
-                        <h6>Expires on : {`${new Date(j.expiresAt)}`}</h6>
+                        <h6>Opens on :   {`${new Date(j.opensAt).toLocaleString('en-IN')}`}</h6>
+                        <h6>Expires on : {`${new Date(j.expiresAt).toLocaleString('en-IN')}`}</h6>
                       </div>
                       <br />
                       <Card.Text>
