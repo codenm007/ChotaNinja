@@ -13,13 +13,14 @@ import isLoggedIn from "../functions/isLoggedIn";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloudUploadAlt,faLock } from '@fortawesome/free-solid-svg-icons';
 import 'react-datepicker/dist/react-datepicker.css'
-
+import './home.css';
 //importing components
 import RenameUrl from "./renameurlComponent";
 import GetTrackingInfo from "./GetTrackingInfo";
 import BlockUrl from "./BlockUrlComponent";
 import DeleteUrl from "./deleteComponent";
 import PassWordedLinks from "./PasswordedLinks";
+import QRCODE from './showQR';
 
 const Home = () => {
 
@@ -294,22 +295,41 @@ const Home = () => {
                   </InputGroup>
                 </Col>
                 <Col sm={12} md={2} >
+                  <span className="d-flex justify-content-start">
                   <Button onClick={() => {
                     
                     shortenLink();
                   }} >
                     Shorten it
                   </Button>
+                  </span>
+                  
                 </Col>
               </Row>
               <Row>
-              <Col sm={12} md={6} className="d-flex justify-content-end">
+              <Col sm={12} md={6} >
+                <div className="d-none d-md-block ">
+                  <div className="d-flex justify-content-end">
                   <DatePicker
+                    wrapperClassName = "datepicker"
                     showTimeSelect
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     timeClassName={handleColor}
+                    
                   />
+                  </div>
+                  </div>
+                  <div className="d-sm-block d-md-none ">
+                  <DatePicker
+                    wrapperClassName = "datepicker"
+                    showTimeSelect
+                    selected={startDate}
+                    onChange={(date) => setStartDate(date)}
+                    timeClassName={handleColor}
+                    
+                  />
+                  </div>
                 </Col>
 
                 <Col sm={12} md={6} >
@@ -347,25 +367,37 @@ const Home = () => {
                         <h5 style={{ color: "red", cursor: "copy" }}><div className={{ color: "red" }} onClick={() => copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
                       </Card.Text>
                       <RenameUrl id = {j.id}/>
+                      <QRCODE link = {j.shortenedLink} />
                       {isLoggedIn()?(
                         <>
                       <span style = {{marginLeft:"0.8rem"}}>
                       <DeleteUrl  id = {j.id} />
                       </span>
-                      <span className = "px-2">
+                      <span className = "px-2 d-none d-md-inline-block">
                       <BlockUrl  id = {j.id} />
                       </span>
-                      <span className = "px-2">
+                      <span className = "px-2  d-none d-md-inline-block">
                       <PassWordedLinks  id = {j.id} password ={j.is_passworded}/>
                       </span>
+
+                      <div className = "d-sm-block d-md-none " style={{paddingTop:"20px" , paddingLeft:"10px"}}>
+                      <BlockUrl  id = {j.id} />
+                     
+                      </div>
+                      <div className = "d-sm-block d-md-none " style={{paddingTop:"20px",paddingBottom:"30px"}}>
+                      <PassWordedLinks  id = {j.id} password ={j.is_passworded}/>
+                      </div>
                       </>
                       ):(
                         <>
-                        <span>
+                        
+                        <span className="d-none d-md-inline-block" >
+                          
                           <a href="/login" className = "px-3" style ={{textDecoration:"none",fontWeight:"bold"}}>
                             Register for more features
                           </a>
                         </span>
+
                         </>
                       )}
 
@@ -379,8 +411,14 @@ const Home = () => {
                       </Button> */}
  
                       < GetTrackingInfo  id = {j.id} totalClicks = {j.total_clicks} shortUrl = {j.shortenedLink} />
+                      {!isLoggedIn()?(
+                                              <div className = "d-sm-block d-md-none " style ={{textDecoration:"none",fontWeight:"bold" , paddingTop:"20px"}} >
+                                              <a href="/login"  >
+                                                Register for more features
+                                              </a>
+                                            </div>
+                      ):""}
 
-                      
                     </Card.Body>
                   </Card>
                   )
