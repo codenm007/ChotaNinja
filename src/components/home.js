@@ -238,20 +238,21 @@ const Home = () => {
       {
         <Container>
           <div style={{
-            marginTop: "100px",
+            marginTop: "175px",
             position: "absolute",
             top: 0,
             width: "90%",
             height: "auto"
           }}>
-            <div >
+            {/* desktop view */}
+            <div className = "d-none d-md-block" >
               <Row >
                 <Col sm={9} md={9} className="d-flex justify-content-end"><div style={{ fontSize: "100px", fontWeight: 500, color: "wheat" }}>Welcome to Chota</div> </Col>
                 <Col sm={3} md={3} className="d-flex justify-content-start"><img src={ninjapic} width="100px" height="120px" style={{ float: "left" }} /></Col>
               </Row>
               <Row >
                 {count ? (
-                  <div className="d-flex justify-content-center">
+                  <div className="d-flex justify-content-center" >
                     <Typist cursor={{ show: false }} avgTypingDelay={90} onTypingDone={() => setCount(0)}>
                       <div style={{ color: "white", fontSize: "20px", fontWeight: "bold" }}> Create shortlinks that expire !
                         <Typist.Backspace count={41} delay={800} />
@@ -268,7 +269,36 @@ const Home = () => {
                   ""
                 )}
               </Row>
-
+                
+            </div>
+            {/* mobile view */}
+            <div className = "d-xs-block d-sm-block d-md-none" >
+              <Row className="d-flex justify-content-center" >
+              <Col className="d-flex justify-content-center">
+                <div style={{ fontSize: "35px", fontWeight: 500, color: "wheat" }}>Welcome to Chota </div> 
+                <img src={ninjapic} className="mx-2" width="50px" height="60px"/>
+                </Col>
+              </Row>
+              <Row >
+                {count ? (
+                  <div className="d-flex justify-content-center">
+                    <Typist cursor={{ show: false }} avgTypingDelay={90} onTypingDone={() => setCount(0)}>
+                      <div style={{ color: "white", fontSize: "16px", fontWeight: "bold" }}> Create shortlinks that expire !
+                        <Typist.Backspace count={41} delay={800} />
+                        Complete link demographics
+                        <Typist.Backspace count={40} delay={1600} />
+                        All Links are <span style={{ color: "#35BF09" }}>ENCRYPTED</span> on DB
+                        <Typist.Backspace count={40} delay={3200} />
+                        Passworded Links <span style={{ color: "#35BF09" }}> <FontAwesomeIcon icon={faLock} /> </span>
+                        
+                      </div>
+                    </Typist>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </Row>
+                
             </div>
           </div>
 
