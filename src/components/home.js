@@ -366,11 +366,14 @@ const Home = () => {
                         <hr />
                         <h5 style={{ color: "red", cursor: "copy" }}><div className={{ color: "red" }} onClick={() => copytoClipboard(j.shortenedLink)}>{j.shortenedLink}</div></h5>
                       </Card.Text>
+                      <span>
                       <RenameUrl id = {j.id}/>
                       <QRCODE link = {j.shortenedLink} />
+                      </span>
                       {isLoggedIn()?(
                         <>
-                      <span style = {{marginLeft:"0.8rem"}}>
+                        
+                      <span style = {{marginLeft:"0.8rem" }}>
                       <DeleteUrl  id = {j.id} />
                       </span>
                       <span className = "px-2 d-none d-md-inline-block">

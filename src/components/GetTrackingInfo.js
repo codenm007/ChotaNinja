@@ -61,13 +61,21 @@ onHide={handleClose}
 backdrop="static"
 dialogClassName="tracking_info_modal"
 keyboard={false}
+width="fit-content"
 >
 <Modal.Header closeButton>
-  <Modal.Title>Tracking info for {shortUrl}</Modal.Title>
+  <Modal.Title>
+      Url Analytics
+    </Modal.Title>
 </Modal.Header>
 <Modal.Body>
-
-<Table striped bordered hover size="sm">
+<div style={{wordBreak:"break-all"}}>
+    Tracking info for
+    <p>
+     <a href ={shortUrl}>{shortUrl}</a>
+     </p>
+    </div>
+<Table responsive striped bordered hover >
   <thead>
     <tr>
       <th>User IP</th>
